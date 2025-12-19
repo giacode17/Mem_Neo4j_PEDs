@@ -1,9 +1,13 @@
 # Environment variables and secrets
 .env
-.env.local
-.env.*.local
-*.key
+.env.template
 credentials.json
+dataset/
+DEMO_GUIDE.md
+FINAL_SETUP_GUIDE.md
+HACKTHON_SUMMARY.md
+PROJECT_COMPLETE.md
+QUICKSTART.md
 
 # Python
 __pycache__/
