@@ -1,4 +1,4 @@
-# Pediatric Care Assistant 🏥
+# CareMyKids 🏥
 
 **AI Agents Hackathon: Memories That Last**
 
@@ -15,6 +15,11 @@ This assistant helps parents care for their children by:
 - ✅ **Appointment Scheduling** - Manage doctor appointments and reminders
 - ✅ **Emergency Triage** - Assess severity and provide guidance on when to seek help
 - ✅ **Memory-Powered Conversations** - Remembers your child's complete history
+
+
+## 🚀 Video Demo
+You can check this demo on Youtube([ Go ](https://www.youtube.com/watch?v=p1g2aGqNopU))
+
 
 ## 🏗️ Architecture
 
@@ -41,7 +46,7 @@ This assistant helps parents care for their children by:
 └──────────────┘    └──────────────┘
 ```
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Step 1: Set Up Neo4j (5 minutes)
 

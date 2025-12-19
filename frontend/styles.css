@@ -3,6 +3,20 @@
     background-color: #e8f5e9 !important; /* Light green */
 }
 
+/* -- Text color -- */
+.stApp, .stMarkdown, p, div, span, label {
+    color: #0D47A1 !important; /* Blue text */
+}
+
+/* -- Chat message text -- */
+.stChatMessage {
+    color: #0D47A1 !important;
+}
+
+.stChatMessage p, .stChatMessage div {
+    color: #0D47A1 !important;
+}
+
 /* -- Sidebar width & padding -- */
 section[data-testid="stSidebar"]          { width: 230px !important; }
 section[data-testid="stSidebarContent"]   { width: 230px !important;
