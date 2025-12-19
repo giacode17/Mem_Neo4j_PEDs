@@ -1,0 +1,10 @@
+{"query": "Low fever after tonsil surgery day 1", "should_retrieve": ["ac_001"]}
+{"query": "RSV cough still going after 2 weeks", "should_retrieve": ["ac_003"]}
+{"query": "Cast care itching what to do", "should_retrieve": ["ac_006"]}
+{"query": "Ear infection not better after 2 days", "should_retrieve": ["ac_002"]}
+{"query": "Child vomiting twice in six hours dehydration risk", "should_retrieve": ["ac_004"]}
+{"query": "High fever 39 what next", "should_retrieve": ["ac_001", "ac_010"]}
+{"query": "Appendectomy when sports again", "should_retrieve": ["ac_009"]}
+{"query": "Stitches wound infection signs", "should_retrieve": ["ac_007"]}
+{"query": "Pneumonia cough not gone yet", "should_retrieve": ["ac_008"]}
+{"query": "Flu appetite low okay", "should_retrieve": ["ac_010"]}

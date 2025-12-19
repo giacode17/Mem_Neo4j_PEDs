@@ -1,0 +1,5 @@
+patient_id,date,fever_c,pain_0_10,vomiting_events_6h,breathing_difficulty,missed_med_doses_24h,alert_triggered
+p101,2025-10-28,38.3,3,0,0,0,0
+p101,2025-10-29,39.1,4,0,0,0,1
+p102,2025-10-29,37.8,2,2,0,0,1
+p103,2025-10-29,38.6,7,0,0,0,1

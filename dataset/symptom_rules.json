@@ -1,0 +1,29 @@
+[
+  {
+    "symptom": "fever_c",
+    "mild_lt": 38.5,
+    "high_gte": 39.0,
+    "advice_mild": "Mild fever can occur during recovery. Offer fluids and rest; recheck in 4 hours.",
+    "advice_high": "High temperature—follow your after‑visit instructions and contact your care line or seek care if persistent."
+  },
+  {
+    "symptom": "pain_0_10",
+    "spike_gte": 7,
+    "advice_spike": "Pain is higher than expected. Use your prescribed pain plan and consider contacting your provider if not improving within 12 hours."
+  },
+  {
+    "symptom": "vomiting_events_6h",
+    "threshold_gte": 2,
+    "advice": "Repeated vomiting can lead to dehydration; call your clinic if your child cannot keep fluids down."
+  },
+  {
+    "symptom": "breathing_difficulty",
+    "boolean": true,
+    "advice": "If your child is working hard to breathe or lips look blue, seek urgent care now."
+  },
+  {
+    "symptom": "missed_med_doses_24h",
+    "threshold_gte": 2,
+    "advice": "Resume medicines as prescribed. If unsure what to do after missed doses, call your clinic or pharmacist."
+  }
+]
