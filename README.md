@@ -1,4 +1,4 @@
-# Pediatric Care Assistant 🏥👶
+# Pediatric Care Assistant 🏥
 
 **AI Agents Hackathon: Memories That Last**
 
@@ -229,71 +229,12 @@ MATCH (c:Child)-[:TAKES]->(m:Medication)
 RETURN c, m
 ```
 
-## 🔧 API Endpoints
 
-Once the server is running:
 
-### Child Management
-- `POST /child/create` - Create/update child profile
-- `GET /child/{child_id}` - Get child profile
 
-### Medications
-- `POST /medication/add` - Add medication (with safety check)
-- `GET /medication/{child_id}/active` - Get active medications
-- `GET /medication/safety-check` - Check medication safety
-
-### Symptoms
-- `POST /symptom/log` - Log a symptom
-- `GET /symptom/{child_id}/emergency-check` - Check emergency status
-
-### Appointments
-- `POST /appointment/create` - Schedule appointment
-- `GET /appointment/{child_id}/upcoming` - Get upcoming appointments
-
-### Chat
-- `POST /chat/query` - Main integrated query (MemMachine + Neo4j)
-
-## 📖 Learn More
-
-- **Neo4j Cypher Queries**: See `NEO4J_SETUP.md` for examples
-- **MemMachine Docs**: Check `examples/simple_chatbot/` for reference
-- **Graph Visualization**: Use Neo4j Browser in your Aura console
-
-## 🎨 Customization Ideas
-
-- Add more medical conditions to the graph
-- Implement medication reminder scheduling
-- Add growth tracking (height, weight charts)
-- Connect to pharmacy APIs for prescription status
-- Add vaccination schedule tracking
-- Implement multi-child support
-- Add graph analytics for symptom patterns
-
-## 🐛 Troubleshooting
-
-**"Neo4j connection failed"**
-- Check your `.env` file has correct credentials
-- Verify your Aura instance is running
-- Check URI format: `neo4j+s://xxxxx.databases.neo4j.io`
-
-**"Module 'neo4j' not found"**
-```bash
-pip install neo4j python-dotenv
-```
-
-**"MemMachine not responding"**
-- Make sure MemMachine backend is running
-- Check `MEMORY_BACKEND_URL` in `.env`
-- This component is optional during development
 
 ## 📝 License
 
 MIT License - Built for AI Agents Hackathon
 
-## 🤝 Contributing
 
-This is a hackathon project! Feel free to fork and extend.
-
----
-
-**Built with ❤️ for the AI Agents Hackathon: Memories That Last**

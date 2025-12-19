@@ -1,10 +1,19 @@
+/* -- Background color -- */
+.stApp {
+    background-color: #e8f5e9 !important; /* Light green */
+}
+
 /* -- Sidebar width & padding -- */
 section[data-testid="stSidebar"]          { width: 230px !important; }
 section[data-testid="stSidebarContent"]   { width: 230px !important;
                                             padding: 0.75rem; }
 
-/* -- Title size -- */
-h1 { font-size: 2.1rem !important; margin-bottom: 1rem; }
+/* -- Title size and color -- */
+h1 {
+    font-size: 2.1rem !important;
+    margin-bottom: 1rem;
+    color: #424242 !important; /* Dark grey */
+}
 
 /* -- Ensure long links wrap inside comparison columns -- */
 div.answer { white-space: pre-wrap; overflow-wrap: anywhere; }
