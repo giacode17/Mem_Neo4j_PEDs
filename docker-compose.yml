@@ -1,0 +1,45 @@
+services:
+  db:
+    image: pgvector/pgvector:pg17
+    environment:
+      POSTGRES_DB: caremykids
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports:
+      - "5433:5432"   # 5433 externally to avoid conflict with your local Postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d caremykids"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgresql://postgres@db/caremykids  # overrides .env for Docker
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    ports:
+      - "8501:8501"
+    env_file:
+      - .env
+    environment:
+      EXAMPLE_SERVER_PORT: http://backend:8000  # backend service name inside Docker network
+    depends_on:
+      - backend
+
+volumes:
+  pgdata:

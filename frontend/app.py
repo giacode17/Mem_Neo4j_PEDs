@@ -44,7 +44,7 @@ with open("./styles.css") as f:
 # Sidebar
 # ──────────────────────────────────────────────────────────────
 with st.sidebar:
-    st.image("./assets/memmachine_logo.png", use_column_width=True)
+    st.image("./assets/doctor_logo.png", use_column_width=True)
 
     st.markdown("#### Choose Model")
 
@@ -122,7 +122,7 @@ def append_user_turn(msgs: list[dict], new_user_msg: str) -> list[dict]:
 # ──────────────────────────────────────────────────────────────
 # Title
 # ──────────────────────────────────────────────────────────────
-st.title("MemMachine_Care My Kids")
+st.title("Care My Kids")
 
 # ──────────────────────────────────────────────────────────────
 # Chat logic

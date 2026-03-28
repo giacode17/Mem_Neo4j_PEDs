@@ -53,17 +53,27 @@ Response Format:
 {context_block}
 </CONTEXT>
 
+<KNOWLEDGE>
+{knowledge_block}
+</KNOWLEDGE>
+
+<WEB_SEARCH>
+{web_block}
+</WEB_SEARCH>
+
 <USER_QUERY>
 {query}
 </USER_QUERY>
 """
 
-    def create_query(self, profile: str | None, context: str | None, query: str) -> str:
+    def create_query(self, profile: str | None, context: str | None, query: str, knowledge: str | None = None, web: str | None = None) -> str:
         """Create a health assistant query using the prompt template"""
         if not query or not query.strip():
             raise ValueError("Query cannot be empty")
         profile_str = profile or ""
         context_block = f"{context}\n\n" if context else ""
+        knowledge_block = f"{knowledge}\n\n" if knowledge else ""
+        web_block = f"{web}\n\n" if web else ""
         current_date = datetime.now(tz=timezone.utc).strftime("%Y-%m-%d")
 
         try:
@@ -71,9 +81,10 @@ Response Format:
                 current_date=current_date,
                 profile=profile_str,
                 context_block=context_block,
+                knowledge_block=knowledge_block,
+                web_block=web_block,
                 query=query,
             )
         except Exception as e:
             logger.exception("Error creating health assistant query: %s", e)
-            # Fallback to simple format
-            return f"{profile_str}\n\n{context_block}{query}"
+            return f"{profile_str}\n\n{context_block}{knowledge_block}{web_block}{query}"

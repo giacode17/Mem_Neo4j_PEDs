@@ -1,17 +1,13 @@
 PROVIDER_MODEL_MAP = {
-    "openai": ["gpt-4.1-mini"],
-    "anthropic": [
-        "anthropic.claude-3-sonnet-20240229-v1:0",
-        "anthropic.claude-3-5-haiku-20241022-v1:0",
+    "openai": [
+        "gpt-4.1-mini",
+        "gpt-4o",
     ],
-    "deepseek": ["us.deepseek.r1-v1:0"],
-    "meta": ["meta.llama3-8b-instruct-v1:0", "meta.llama3-70b-instruct-v1:0"],
-    "mistral": [
-        "mistral.mixtral-8x7b-instruct-v0:1",
-        "mistral.mistral-7b-instruct-v0:2",
+    "anthropic": [
+        "claude-3-5-haiku-20241022",
+        "claude-3-5-sonnet-20241022",
     ],
 }
-# "meta.llama4-maverick-17b-instruct-v1:0" (not currently working)
 
 MODEL_TO_PROVIDER = {
     model: provider

@@ -4,14 +4,17 @@ uvicorn==0.32.0
 requests==2.32.3
 streamlit==1.39.0
 
-# Neo4j Integration
-neo4j==5.25.0
 python-dotenv==1.0.1
 
 # LLM Providers
-openai==1.54.3
-anthropic==0.39.0
+openai==1.109.1
+anthropic==0.52.0
 
 # Utilities
 pydantic==2.10.0
 python-multipart==0.0.12
+tavily-python==0.5.0
+
+# PostgreSQL + vector search (replaces MemMachine)
+psycopg2-binary==2.9.10
+pgvector==0.3.6
