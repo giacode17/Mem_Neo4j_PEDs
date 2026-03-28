@@ -1,14 +1,34 @@
+import json
 import logging
 import os
 import sys
+import time
 from contextlib import asynccontextmanager
 from datetime import datetime, timezone
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request, Response
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import memory_store
 from query_constructor import HealthAssistantQueryConstructor
+
+# ── Structured JSON logging (GCP Cloud Logging compatible) ──────────────────
+class JsonFormatter(logging.Formatter):
+    def format(self, record: logging.LogRecord) -> str:
+        log = {
+            "severity": record.levelname,
+            "message": record.getMessage(),
+            "logger": record.name,
+            "time": datetime.now(tz=timezone.utc).isoformat(),
+        }
+        if record.exc_info:
+            log["exception"] = self.formatException(record.exc_info)
+        return json.dumps(log)
+
+handler = logging.StreamHandler()
+handler.setFormatter(JsonFormatter())
+logging.basicConfig(level=logging.INFO, handlers=[handler])
+# ────────────────────────────────────────────────────────────────────────────
 
 logger = logging.getLogger(__name__)
 
@@ -26,6 +46,21 @@ async def lifespan(app: FastAPI):
 app = FastAPI(title="Health Server", description="Pediatric care middleware", lifespan=lifespan)
 
 
+@app.middleware("http")
+async def log_requests(request: Request, call_next) -> Response:
+    t0 = time.perf_counter()
+    response = await call_next(request)
+    latency_ms = round((time.perf_counter() - t0) * 1000)
+    logger.info(json.dumps({
+        "type": "request",
+        "method": request.method,
+        "path": request.url.path,
+        "status": response.status_code,
+        "latency_ms": latency_ms,
+    }))
+    return response
+
+
 @app.post("/memory")
 async def store_data(user_id: str, query: str):
     try:
@@ -35,6 +70,7 @@ async def store_data(user_id: str, query: str):
             "type": "message",
         }
         result = memory_store.store_episode(user_id, query, metadata)
+        logger.info(json.dumps({"type": "store", "user_id": user_id, "episode_id": result["id"]}))
         return {"status": "success", "data": result}
     except Exception:
         logger.exception("Error occurred in /memory store_data")
@@ -69,6 +105,14 @@ async def get_data(query: str, user_id: str, timestamp: str):
             web=web_str,
             query=query,
         )
+
+        logger.info(json.dumps({
+            "type": "search",
+            "user_id": user_id,
+            "episodes": len(episodic_memory),
+            "knowledge_hits": len(knowledge_results),
+            "web_hits": len(web_results),
+        }))
 
         return {
             "status": "success",
@@ -116,6 +160,14 @@ async def store_and_search_data(user_id: str, query: str):
             web=web_str,
             query=query,
         )
+
+        logger.info(json.dumps({
+            "type": "store_and_search",
+            "user_id": user_id,
+            "episodes": len(episodic_memory),
+            "knowledge_hits": len(knowledge_results),
+            "web_hits": len(web_results),
+        }))
 
         if profile_memory and episodic_memory:
             return f"Profile: {profile_memory}\n\nContext: {episodic_memory}\n\nFormatted Response:\n{formatted_response}"
