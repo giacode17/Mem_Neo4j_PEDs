@@ -5,12 +5,12 @@
 
 /* -- Text color -- */
 .stApp, .stMarkdown, p, div, span, label {
-    color: #0D47A1 !important; /* Blue text */
+    color: #ccc !important; 
 }
 
 /* -- Chat message text -- */
 .stChatMessage {
-    color: #0D47A1 !important;
+    color: #0D47A1 !important;/* Blue text */
 }
 
 .stChatMessage p, .stChatMessage div {
