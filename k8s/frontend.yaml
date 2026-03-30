@@ -38,7 +38,8 @@ metadata:
 spec:
   selector:
     app: frontend
-  type: LoadBalancer
+  type: NodePort
   ports:
     - port: 80
       targetPort: 8501
+      nodePort: 30080

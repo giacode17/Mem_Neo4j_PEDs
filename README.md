@@ -2,7 +2,7 @@
 
 A memory-powered pediatric care assistant that helps parents get personalized, context-aware answers about their child's health.
 
-**Live:** `http://34.63.113.183`
+**Live:** https://carekids.dev
 
 ---
 
@@ -26,7 +26,7 @@ Example queries:
 User (Browser)
     │
     ▼
-Streamlit Frontend          ← http://34.63.113.183
+Streamlit Frontend          ← https://carekids.dev
     │
     ▼
 FastAPI Backend (RAG pipeline)
@@ -40,6 +40,7 @@ PostgreSQL + pgvector       ← single database for everything
 
 **Deployed on:** GKE (Google Kubernetes Engine) `us-central1-a`
 **CI/CD:** GitHub Actions → Artifact Registry → `kubectl rollout restart`
+**HTTPS:** GCP Managed Certificate + GKE Ingress (carekids.dev, www.carekids.dev)
 
 ---
 
@@ -54,8 +55,9 @@ PostgreSQL + pgvector       ← single database for everything
 | Web Search | Tavily |
 | Container | Docker (linux/amd64) |
 | Orchestration | Kubernetes / GKE |
+| Ingress / TLS | GKE Ingress + GCP Managed Certificate |
 | CI/CD | GitHub Actions |
-| Monitoring | GCP Cloud Monitoring + Cloud Logging |
+| Monitoring | Prometheus metrics + GCP Cloud Logging |
 
 ---
 
@@ -68,6 +70,19 @@ knowledge_base  — 25 embedded docs (aftercare, medication guides, dialogues)
 symptom_rules   — 5 pediatric triage rules
 checkins        — synthetic patient check-in records
 ```
+
+---
+
+## API Endpoints
+
+| Method | Path | Description |
+|---|---|---|
+| `GET` | `/` | Landing page |
+| `GET` | `/health` | Health check (DB connectivity) |
+| `GET` | `/metrics` | Prometheus metrics |
+| `POST` | `/memory` | Store a conversation turn |
+| `GET` | `/memory` | Search memory + RAG pipeline |
+| `POST` | `/memory/store-and-search` | Store then search (combined) |
 
 ---
 
@@ -86,7 +101,7 @@ cp .env.example .env
 # 2. Start the full stack
 docker compose up
 
-# 3. Load the knowledge base (first time only)
+# 3. Load the knowledge base (first time only — runs automatically on first start)
 docker compose run --rm backend python /app/load_dataset.py
 ```
 
@@ -123,13 +138,17 @@ Manifests are in `k8s/`:
 kubectl create secret generic caremykids-secrets \
   --from-literal=OPENAI_API_KEY=... \
   --from-literal=ANTHROPIC_API_KEY=... \
-  --from-literal=TAVILY_API_KEY=...
+  --from-literal=TAVILY_API_KEY=... \
+  --from-literal=DATABASE_URL=postgresql://postgres@postgres/caremykids
 
 # Deploy
 kubectl apply -f k8s/postgres.yaml
 kubectl apply -f k8s/backend.yaml
 kubectl apply -f k8s/frontend.yaml
+kubectl apply -f k8s/ingress.yaml
 ```
+
+The ingress uses a GCP global static IP (`caremykids-ip`) and a GCP Managed Certificate for automatic TLS.
 
 ---
 
@@ -140,8 +159,9 @@ proj/
 ├── memory_store.py              # PostgreSQL + pgvector memory layer
 ├── load_dataset.py              # Dataset loader (idempotent)
 ├── base_query_constructor.py    # Base prompt builder
+├── entrypoint.sh                # Backend startup (seeds DB on first run)
 ├── health_assistant/
-│   ├── health_server.py         # FastAPI app + RAG pipeline
+│   ├── health_server.py         # FastAPI app + RAG pipeline + metrics
 │   └── query_constructor.py     # Prompt assembly (profile + context + knowledge + web)
 ├── frontend/
 │   ├── app.py                   # Streamlit chat UI
@@ -150,6 +170,10 @@ proj/
 │   └── model_config.py          # Model list
 ├── dataset/                     # Pediatric knowledge base source files
 ├── k8s/                         # Kubernetes manifests
+│   ├── postgres.yaml            # StatefulSet + PVC
+│   ├── backend.yaml             # Deployment + Service
+│   ├── frontend.yaml            # Deployment + NodePort Service
+│   └── ingress.yaml             # GKE Ingress + ManagedCertificate
 ├── .github/workflows/           # GitHub Actions CI/CD
 ├── Dockerfile.backend
 ├── Dockerfile.frontend
