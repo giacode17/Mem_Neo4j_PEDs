@@ -95,7 +95,7 @@ checkins        — synthetic patient check-in records
 git clone https://github.com/giacode17/Mem_Neo4j_PEDs
 cd Mem_Neo4j_PEDs
 
-cp .env.example .env
+cp docs/.env.template .env
 # Fill in: OPENAI_API_KEY, ANTHROPIC_API_KEY, TAVILY_API_KEY
 
 # 2. Start the full stack
